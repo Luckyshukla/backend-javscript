@@ -1,0 +1,15 @@
+{
+  "name": "backend-javscript",
+  "version": "1.0.0",
+  "description": "practice backend in js with mongo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "author": "Lucky shukla",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
