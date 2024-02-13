@@ -1,16 +1,20 @@
-// const asynchandler = (higherOrderFn) => async (req, res, next) => {
-//   try {
-//     await higherOrderFn(req, res, next);
-//   } catch (error) {
-//     res.status(error.code || 500).json({
-//       succusss: true,
-//       message: error.message,
-//     });
-//   }
-// };
-const asynchandler = (requestHandler) => {
-  (req, res, next) => {
-    Promise.resolve(requestHandler(req, res, next)).catch((err) => err);
+
+const asyncHandler = (requestHandler) => {
+  return (req, res, next) => {
+    Promise.resolve(requestHandler(req, res, next))
+      .then((result) => {
+        // If requestHandler doesn't return a Promise, resolve it as a Promise
+        if (!(result instanceof Error)) {
+          result = Promise.resolve(result);
+        }
+
+        return result;
+      })
+      .catch((err) => {
+        // Ensure that next is called only with the error
+        next(err);
+      });
   };
 };
-export { asynchandler };
+
+export { asyncHandler };
